@@ -3,7 +3,7 @@
 A modern, full-stack web application for managing health insurance policies, claims, and members. Built with **ASP.NET Core 8 Web API** and **Angular**.
 
 ##  Features
-- **Role-Based Access Control (RBAC):** Admin, Agent, Claims Officer, Hospital, and Customer.
+- **Role-Based Access Control (RBAC):** Admin, Insurance Agent, Claims Officer, Hospital Manager and Customer.
 - **Policy Management:** Create and manage insurance plans.
 - **Claims Processing:** End-to-end claim submission and approval workflow.
 - **Reporting:** Analytical dashboards for claims and premiums.
