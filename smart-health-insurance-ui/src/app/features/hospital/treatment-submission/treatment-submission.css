@@ -1,0 +1,29 @@
+.submission-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+mat-card {
+    width: 600px;
+    padding: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+button {
+    width: 100%;
+    margin-top: 10px;
+}

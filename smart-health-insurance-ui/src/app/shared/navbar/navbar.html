@@ -1,0 +1,73 @@
+<div class="navbar">
+
+    <a routerLink="/" class="brand-area">
+        <mat-icon class="logo-icon">health_and_safety</mat-icon>
+        <span class="brand-text">SmartHealth</span>
+    </a>
+
+    <div class="nav-links" *ngIf="!isAuthPage() && (user$ | async) as user">
+        <ng-container [ngSwitch]="currentRole">
+            <a mat-button class="nav-link" routerLink="/admin" routerLinkActive="active-link"
+                *ngSwitchCase="'Admin'">Dashboard</a>
+            <a mat-button class="nav-link" routerLink="/agent" routerLinkActive="active-link"
+                *ngSwitchCase="'InsuranceAgent'">Dashboard</a>
+            <a mat-button class="nav-link" routerLink="/hospital" routerLinkActive="active-link"
+                *ngSwitchCase="'HospitalManager'">Dashboard</a>
+            <a mat-button class="nav-link" routerLink="/customer" routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{exact: true}" *ngSwitchCase="'Customer'">Dashboard</a>
+            <a mat-button class="nav-link" routerLink="/claims" routerLinkActive="active-link"
+                *ngSwitchCase="'ClaimsOfficer'">Dashboard</a>
+        </ng-container>
+    </div>
+
+    <span class="spacer"></span>
+
+    <div class="action-area" *ngIf="!isAuthPage()">
+        <ng-container *ngIf="(user$ | async) as user; else publicActions">
+
+            <button mat-icon-button class="icon-btn" [matMenuTriggerFor]="notificationMenu"
+                (menuOpened)="onMenuOpened()">
+                <mat-icon [matBadge]="unreadCount" [matBadgeHidden]="unreadCount === 0">notifications_none</mat-icon>
+            </button>
+            <mat-menu #notificationMenu="matMenu" class="notification-menu">
+                <div class="notification-header"
+                    style="padding: 12px 16px; font-weight: 600; border-bottom: 1px solid #eee;">
+                    Notifications
+                </div>
+                <div style="max-height: 300px; overflow-y: auto;">
+                    <button mat-menu-item *ngFor="let n of notifications" (click)="markAsRead(n)">
+                        <span [style.font-weight]="!n.isRead ? 600 : 400">{{n.message}}</span>
+                    </button>
+                    <div *ngIf="notifications.length === 0" style="padding: 20px; text-align: center; color: #999;">No
+                        new notifications</div>
+                </div>
+            </mat-menu>
+
+            <div class="profile-avatar" [matMenuTriggerFor]="profileMenu">
+                {{ (currentName?.charAt(0) || 'U') | uppercase }}
+            </div>
+            <mat-menu #profileMenu="matMenu">
+                <div style="padding: 16px; border-bottom: 1px solid #eee; margin-bottom: 8px;">
+                    <div style="font-weight: 600;">{{ currentName }}</div>
+                    <div style="font-size: 12px; color: #666;">{{ currentEmail }}</div>
+                    <div
+                        style="font-size: 11px; color: var(--primary-color); text-transform: uppercase; margin-top: 4px; font-weight: 600;">
+                        {{ currentRole }}
+                    </div>
+                </div>
+              
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon color="warn">logout</mat-icon> Logout
+                </button>
+            </mat-menu>
+
+        </ng-container>
+
+
+        <ng-template #publicActions>
+            <a mat-button class="nav-link" routerLink="/auth/login" *ngIf="!isAuthPage()">Login</a>
+            <a mat-raised-button color="primary" routerLink="/auth/register" *ngIf="!isAuthPage()"
+                style="margin-left: 8px;">Get Started</a>
+        </ng-template>
+    </div>
+</div>

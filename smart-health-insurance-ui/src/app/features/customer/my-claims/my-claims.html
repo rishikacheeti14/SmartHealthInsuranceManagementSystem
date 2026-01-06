@@ -1,0 +1,81 @@
+<div class="claims-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+        <h2>My Claims</h2>
+        <mat-form-field appearance="outline" style="font-size: 14px; width: 300px;">
+            <mat-label>Search Claims</mat-label>
+            <input matInput (input)="onSearch($any($event.target).value)" placeholder="Search by ID, Status...">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="claims" matSort (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let claim"> #{{claim.claimId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                <td mat-cell *matCellDef="let claim"> {{claim.submittedAt | date}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+                <td mat-cell *matCellDef="let claim">
+                    <span
+                        *ngIf="(claim.status === 5 || claim.status === 'Paid' || claim.status === 3 || claim.status === 'Approved') && claim.approvedAmount > 0; else requestedAmount">
+                        {{claim.approvedAmount | currency:'INR'}} (Approved)
+                    </span>
+                    <ng-template #requestedAmount>
+                        {{claim.claimAmount | currency:'INR'}} <span
+                            *ngIf="claim.status !== 6 && claim.status !== 'Initiated' && claim.status !== 8">(Requested)</span>
+                    </ng-template>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                <td mat-cell *matCellDef="let claim">
+                    <span class="status-badge" [ngClass]="getStatus(claim.status)">
+                        {{getStatusLabel(claim.status)}}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let claim">
+
+                    <button mat-raised-button color="primary"
+                        *ngIf="claim.status === 8 || claim.status === 'AwaitingPolicy'" (click)="finalizeClaim(claim)">
+                        Finalize Claim
+                    </button>
+
+                    <ng-container *ngIf="claim.status === 6 || claim.status === 'Initiated'">
+                        <button mat-icon-button color="primary" (click)="editClaim(claim)" title="Edit Description">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteClaim(claim)" title="Delete Claim">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </ng-container>
+
+                    <button mat-stroked-button color="primary"
+                        *ngIf="claim.status !== 8 && claim.status !== 'AwaitingPolicy' && claim.status !== 6 && claim.status !== 'Initiated'"
+                        (click)="viewDetails(claim)">
+                        View Details
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

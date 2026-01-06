@@ -1,0 +1,60 @@
+<div class="review-container">
+    <h2>Pending Claims Review</h2>
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="claims" matSort (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+                <td mat-cell *matCellDef="let claim"> #{{claim.claimId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="customer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
+                <td mat-cell *matCellDef="let claim"> {{claim.customerName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="policy">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Policy </th>
+                <td mat-cell *matCellDef="let claim"> {{claim.policyNumber}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Claimed Amount </th>
+                <td mat-cell *matCellDef="let claim"> {{claim.claimAmount | currency:'INR'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let claim">
+                    <div *ngIf="expandedElement !== claim">
+                        <button mat-button color="primary" (click)="expand(claim)">Review</button>
+                    </div>
+                    <div *ngIf="expandedElement === claim" class="action-panel">
+                        <mat-form-field appearance="outline" class="small-field">
+                            <mat-label>Approved Amount</mat-label>
+                            <input matInput type="number" [(ngModel)]="claim.approvedAmountRef">
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" class="small-field">
+                            <mat-label>Reason</mat-label>
+                            <input matInput [(ngModel)]="claim.rejectionReasonRef">
+                        </mat-form-field>
+                        <div class="btn-group">
+                            <button mat-raised-button color="primary"
+                                (click)="submitReview(claim, true)">Approve</button>
+                            <button mat-raised-button color="warn" (click)="submitReview(claim, false)">Reject</button>
+                            <button mat-button (click)="expand(null)">Cancel</button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

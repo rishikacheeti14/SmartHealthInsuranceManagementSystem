@@ -1,0 +1,57 @@
+.submission-container,
+.claims-container {
+    padding: 20px;
+}
+
+mat-card {
+    width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.info-note {
+    background: #e3f2fd;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+
+    &.submitted {
+        background: #e0e0e0;
+    }
+
+    &.review {
+        background: #fff3e0;
+        color: #ef6c00;
+    }
+
+    &.approved {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    &.rejected {
+        background: #ffebee;
+        color: #c62828;
+    }
+
+    &.paid {
+        background: #e1f5fe;
+        color: #0277bd;
+    }
+}

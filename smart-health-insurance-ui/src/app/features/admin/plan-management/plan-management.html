@@ -1,0 +1,114 @@
+<div class="plan-mgmt-container">
+    <div class="header">
+        <h2>Insurance Plans</h2>
+        <div style="display: flex; gap: 16px; align-items: center;">
+            <mat-form-field appearance="outline" style="font-size: 14px; width: 300px;">
+                <mat-label>Search Plans</mat-label>
+                <input matInput (input)="onSearch($any($event.target).value)" placeholder="Name or Description">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="toggleForm()">
+                {{ showForm ? 'Cancel' : 'Add New Plan' }}
+            </button>
+        </div>
+    </div>
+
+    <mat-card *ngIf="showForm" class="form-card">
+        <mat-card-header>
+            <mat-card-title>{{ isEditing ? 'Edit Plan' : 'Create New Plan' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="planForm" (ngSubmit)="onSubmit()">
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Plan Name</mat-label>
+                        <input matInput formControlName="planName" placeholder="Ex: Family Gold Plan">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Duration (Months)</mat-label>
+                        <input matInput type="number" formControlName="durationInMonths" placeholder="12">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Premium Amount (₹)</mat-label>
+                        <input matInput type="number" formControlName="premiumAmount" placeholder="5000">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Coverage Limit (₹)</mat-label>
+                        <input matInput type="number" formControlName="coverageLimit" placeholder="500000">
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Description</mat-label>
+                    <textarea matInput formControlName="description" placeholder="Enter plan details..."></textarea>
+                </mat-form-field>
+
+                <div class="form-row toggle-row">
+                    <mat-slide-toggle formControlName="isActive">Active Plan</mat-slide-toggle>
+                </div>
+
+                <div class="actions">
+                    <button mat-raised-button color="accent" type="submit" [disabled]="planForm.invalid">
+                        {{ isEditing ? 'Update Plan' : 'Create Plan' }}
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="plans" matSort (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Plan Name </th>
+                <td mat-cell *matCellDef="let plan"> {{plan.planName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="premium">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Premium </th>
+                <td mat-cell *matCellDef="let plan"> ₹{{plan.premiumAmount}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="coverage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Coverage </th>
+                <td mat-cell *matCellDef="let plan"> ₹{{plan.coverageLimit}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="duration">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Duration </th>
+                <td mat-cell *matCellDef="let plan"> {{plan.durationInMonths}} Months </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let plan">
+                    <span [style.color]="plan.isActive ? 'green' : 'red'">
+                        {{plan.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let plan">
+                    <button mat-icon-button color="primary" (click)="editPlan(plan)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deletePlan(plan)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

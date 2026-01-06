@@ -1,0 +1,151 @@
+<div class="hospital-mgmt-container">
+    <div class="header">
+        <h2>Hospital Management</h2>
+        <div style="display: flex; gap: 16px; align-items: center;">
+            <mat-form-field appearance="outline" style="font-size: 14px; width: 300px;">
+                <mat-label>Search Hospitals</mat-label>
+                <input matInput (input)="onSearch($any($event.target).value)" placeholder="Name, City, or State">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="toggleForm()">
+                {{ showForm ? 'Cancel' : 'Register New Hospital' }}
+            </button>
+        </div>
+    </div>
+
+    <mat-card *ngIf="showForm" class="form-card">
+        <mat-card-header>
+            <mat-card-title>{{ isEditing ? 'Edit Hospital' : 'Register New Hospital' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="hospitalForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Hospital Name</mat-label>
+                        <input matInput formControlName="hospitalName" placeholder="City General Hospital">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phoneNumber" placeholder="+91 98765 43210">
+                        <mat-error *ngIf="hospitalForm.get('phoneNumber')?.hasError('required')">Phone number is
+                            required</mat-error>
+                        <mat-error *ngIf="hospitalForm.get('phoneNumber')?.hasError('pattern')">Enter valid 10-digit
+                            number</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Email Address</mat-label>
+                        <input matInput formControlName="email" placeholder="contact@hospital.com">
+                        <mat-error *ngIf="hospitalForm.get('email')?.hasError('required')">Email is required</mat-error>
+                        <mat-error *ngIf="hospitalForm.get('email')?.hasError('pattern')">Enter valid email (e.g.
+                            contact@hospital.com)</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput formControlName="address"></textarea>
+                </mat-form-field>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>State</mat-label>
+                        <mat-select formControlName="state">
+                            <mat-option *ngFor="let s of states" [value]="s">{{s}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>City</mat-label>
+                        <mat-select formControlName="city">
+                            <mat-option *ngFor="let c of cities" [value]="c">{{c}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Zip Code</mat-label>
+                        <input matInput formControlName="zipCode">
+                        <mat-error *ngIf="hospitalForm.get('zipCode')?.hasError('required')">Zip Code is
+                            required</mat-error>
+                        <mat-error *ngIf="hospitalForm.get('zipCode')?.hasError('pattern')">Enter valid 6-digit Zip
+                            Code</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Assign Manager</mat-label>
+                        <mat-select formControlName="userId">
+                            <mat-option *ngFor="let manager of availableManagers" [value]="manager.userId">
+                                {{ manager.fullName }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint>Select a registered Hospital Manager</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row toggle-row">
+                    <mat-slide-toggle formControlName="isNetworkProvider">Network Provider (Cashless)</mat-slide-toggle>
+                </div>
+
+                <div class="actions">
+                    <button mat-raised-button color="accent" type="submit" [disabled]="hospitalForm.invalid">
+                        {{ isEditing ? 'Update Hospital' : 'Register Hospital' }}
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="hospitals" matSort (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Hospital Name </th>
+                <td mat-cell *matCellDef="let h"> {{h.hospitalName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+                <td mat-cell *matCellDef="let h"> {{h.city}}, {{h.state}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="phone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact </th>
+                <td mat-cell *matCellDef="let h">
+                    <div>{{h.phoneNumber}}</div>
+                    <div class="email-text">{{h.email}}</div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="network">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                <td mat-cell *matCellDef="let h">
+                    <span [class.network-badge]="h.isNetworkProvider" [class.non-network-badge]="!h.isNetworkProvider">
+                        {{h.isNetworkProvider ? 'Network (Cashless)' : 'Non-Network'}}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let h">
+                    <button mat-icon-button color="primary" (click)="editHospital(h)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteHospital(h)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Pay Bill</h2>
+<mat-dialog-content>
+    <p><strong>Total Amount Due: {{data.amount | currency:'INR'}}</strong></p>
+
+    <mat-form-field appearance="outline" style="width: 100%; margin-top: 10px;">
+        <mat-label>Payment Mode</mat-label>
+        <mat-select [(ngModel)]="paymentMode">
+            <mat-option value="Credit Card">Credit Card</mat-option>
+            <mat-option value="Debit Card">Debit Card</mat-option>
+            <mat-option value="Net Banking">Net Banking</mat-option>
+            <mat-option value="UPI">UPI</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: 100%; margin-top: 10px;">
+        <mat-label>Amount Paid</mat-label>
+        <input matInput [value]="data.amount" readonly>
+    </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" [disabled]="!paymentMode" (click)="onPay()">Pay {{data.amount |
+        currency:'INR'}}</button>
+</mat-dialog-actions>

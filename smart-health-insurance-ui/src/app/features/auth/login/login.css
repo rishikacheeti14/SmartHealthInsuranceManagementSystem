@@ -1,0 +1,198 @@
+
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: #fff;
+  font-family: var(--font-body);
+}
+
+.login-brand-panel {
+  flex: 1;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-content {
+  position: relative;
+  z-index: 2;
+  max-width: 480px;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.brand-icon {
+  font-size: 3rem;
+  height: 3rem;
+  width: 3rem;
+  margin-right: 16px;
+  color: var(--accent-color);
+}
+
+.login-brand-panel h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+  font-family: var(--font-heading);
+}
+
+.brand-tagline {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.feature-pills {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pill {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pill mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  margin-right: 8px;
+  color: var(--secondary-color);
+}
+
+.circles div {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.circles div:nth-child(1) {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  right: -100px;
+}
+
+.circles div:nth-child(2) {
+  width: 600px;
+  height: 600px;
+  bottom: -200px;
+  left: -200px;
+}
+
+.circles div:nth-child(3) {
+  width: 200px;
+  height: 200px;
+  top: 40%;
+  right: 20%;
+}
+
+.login-form-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background-color: #F8FAFC;
+}
+
+.form-container {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.form-header h2 {
+  font-size: 1.75rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.form-header p {
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.forgot-pass {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 8px !important;
+  font-size: 1rem !important;
+  height: 48px;
+}
+
+.register-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-body);
+}
+
+.register-footer a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .login-brand-panel {
+    padding: 40px;
+    min-height: 200px;
+  }
+
+  .brand-tagline,
+  .feature-pills {
+    display: none;
+
+  }
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}

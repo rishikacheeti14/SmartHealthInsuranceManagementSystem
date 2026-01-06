@@ -1,0 +1,46 @@
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.register-card {
+    width: 500px;
+    max-width: 90%;
+    padding: 32px;
+    text-align: center;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.form-row mat-form-field {
+    flex: 1;
+}
+
+mat-card-title {
+    margin-bottom: 24px;
+    font-size: 1.75rem;
+    color: var(--primary-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}

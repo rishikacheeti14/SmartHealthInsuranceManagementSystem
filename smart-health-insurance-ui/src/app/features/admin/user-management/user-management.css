@@ -1,0 +1,68 @@
+.user-mgmt-container {
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.create-form-card {
+    margin-bottom: 20px;
+    max-width: 600px;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+
+    mat-form-field {
+        flex: 1;
+    }
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+}
+
+.role-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+
+    &.admin {
+        background: #e0e0e0;
+        color: #333;
+    }
+
+    &.insuranceagent {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    &.hospitalmanager {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    &.claimsofficer {
+        background: #fff3e0;
+        color: #ef6c00;
+    }
+
+    &.customer {
+        background: #f3e5f5;
+        color: #7b1fa2;
+    }
+}

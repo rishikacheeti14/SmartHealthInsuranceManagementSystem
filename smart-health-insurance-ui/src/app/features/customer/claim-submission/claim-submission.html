@@ -1,0 +1,51 @@
+<div class="submission-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>File a Claim</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+
+            <form [formGroup]="claimForm" (ngSubmit)="onSubmit()">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Select Policy *</mat-label>
+                    <mat-select formControlName="policyId">
+                        <mat-option *ngFor="let p of policies" [value]="p.policyId">
+                            {{p.policyNumber}} - {{p.planName}} (Ends: {{p.endDate | date}})
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="claimForm.get('policyId')?.hasError('required')">Required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Select Hospital *</mat-label>
+                    <mat-select formControlName="hospitalId">
+                        <mat-option *ngFor="let h of hospitals" [value]="h.hospitalId">
+                            {{h.hospitalName}} ({{h.city}}, {{h.state}})
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="claimForm.get('hospitalId')?.hasError('required')">Required</mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Treatment Description *</mat-label>
+                    <textarea matInput formControlName="treatmentDescription" rows="4"
+                        placeholder="Please describe the illness/treatment you are seeking..."></textarea>
+                    <mat-error *ngIf="claimForm.get('treatmentDescription')?.hasError('required')">Required</mat-error>
+                    <mat-error *ngIf="claimForm.get('treatmentDescription')?.hasError('minlength')">Minimum 10
+                        characters required</mat-error>
+                </mat-form-field>
+
+                <p style="color: #666; font-style: italic; margin-bottom: 20px;">
+                    Note: After initiation, the selected hospital will provide diagnosis and cost details.
+                    You will then be able to select your policy and finalize the claim.
+                </p>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="claimForm.invalid"
+                    style="width: 100%; padding: 10px; font-size: 1.1em;">
+                    Initiate Claim
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

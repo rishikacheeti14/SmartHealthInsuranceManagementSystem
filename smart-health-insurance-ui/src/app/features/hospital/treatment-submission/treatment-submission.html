@@ -1,0 +1,78 @@
+<div class="submission-container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Submit Treatment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="treatmentForm" (ngSubmit)="onSubmit()">
+                <div class="search-section" style="margin-bottom: 24px;">
+                    <div style="display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start;">
+                        <mat-form-field appearance="outline" style="width: 100%; margin-bottom: 0;">
+                            <input matInput [(ngModel)]="policyNumberSearch" [ngModelOptions]="{standalone: true}"
+                                placeholder="e.g. POL-123456">
+                        </mat-form-field>
+
+                        <button mat-raised-button color="accent" type="button" (click)="verifyPolicy()"
+                            [disabled]="!policyNumberSearch || isSearching" style="height: 56px; margin-top: 4px;">
+                            {{ isSearching ? 'Verifying...' : 'Verify' }}
+                        </button>
+                    </div>
+                </div>
+
+                <div *ngIf="verifiedPolicy"
+                    style="background: #e3f2fd; padding: 16px; border-radius: 8px; margin-bottom: 24px; border: 1px solid #90caf9;">
+                    <h3 style="margin: 0 0 8px 0; color: #1565c0;">✓ Policy Verified</h3>
+                    <div style="font-size: 16px;">
+                        <strong>Patient:</strong> {{ verifiedPolicy.patientName }} <br>
+                        <strong>Plan:</strong> {{ verifiedPolicy.planName }} ({{ verifiedPolicy.status }})
+                    </div>
+                </div>
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Hospital</mat-label>
+                    <input matInput formControlName="hospitalName" readonly>
+                </mat-form-field>
+
+                <div class="form-row">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Condition</mat-label>
+                        <input matInput formControlName="condition" placeholder="e.g. Flu, Fracture, Dengue">
+                        <mat-error *ngIf="treatmentForm.get('condition')?.hasError('required')">Required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Treatment</mat-label>
+                        <textarea matInput formControlName="treatment" rows="2"
+                            placeholder="e.g. General Checkup, X-Ray, Surgery"></textarea>
+                        <mat-error *ngIf="treatmentForm.get('treatment')?.hasError('required')">Required</mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row" style="display: flex; gap: 16px;">
+                    <mat-form-field appearance="fill" style="flex: 1;">
+                        <mat-label>Cost (₹)</mat-label>
+                        <input matInput type="number" formControlName="estimatedCost">
+                        <span matPrefix>₹&nbsp;</span>
+                        <mat-error *ngIf="treatmentForm.get('estimatedCost')?.hasError('required')">Required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill" style="flex: 1;">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="startPicker" formControlName="startDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="startPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #startPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <input type="hidden" formControlName="endDate">
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="treatmentForm.invalid"
+                    style="width: 100%; height: 48px; font-size: 16px;">
+                    Submit Treatment
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

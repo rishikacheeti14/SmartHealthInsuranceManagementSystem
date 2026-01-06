@@ -1,0 +1,14 @@
+.policies-container {
+    padding: 20px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.policy-card {
+    transition: transform 0.2s;
+}

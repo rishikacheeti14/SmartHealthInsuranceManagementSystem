@@ -1,0 +1,18 @@
+.enrollment-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+
+    mat-form-field {
+        flex: 1;
+    }
+}

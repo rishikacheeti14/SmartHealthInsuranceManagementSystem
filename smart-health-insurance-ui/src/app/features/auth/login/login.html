@@ -1,0 +1,66 @@
+<div class="login-wrapper">
+
+  <div class="login-brand-panel">
+    <div class="brand-content">
+      <div class="logo-area">
+        <mat-icon class="brand-icon">health_and_safety</mat-icon>
+        <h1>Smart Health</h1>
+      </div>
+      <p class="brand-tagline">
+        Secure your future with the most trusted health insurance platform.
+      </p>
+
+      <div class="feature-pills">
+        <div class="pill"><mat-icon>verified_user</mat-icon> Instant Coverage</div>
+        <div class="pill"><mat-icon>bolt</mat-icon> Rapid Claims</div>
+        <div class="pill"><mat-icon>support_agent</mat-icon> 24/7 Support</div>
+      </div>
+    </div>
+
+    <div class="circles">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+
+  <div class="login-form-panel">
+    <div class="form-container">
+      <div class="form-header">
+        <h2>Welcome Back</h2>
+        <p>Please log in to access your dashboard.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="you@company.com">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">Email is required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">Password is required</mat-error>
+        </mat-form-field>
+
+        <div class="action-row">
+
+          <a href="#" class="forgot-pass">Forgot Password?</a>
+        </div>
+
+        <button mat-raised-button color="primary" class="login-btn" type="submit" [disabled]="loginForm.invalid">
+          Log In
+        </button>
+      </form>
+
+      <div class="register-footer">
+        <p>New to Smart Health? <a routerLink="/auth/register">Create an account</a></p>
+      </div>
+    </div>
+  </div>
+</div>

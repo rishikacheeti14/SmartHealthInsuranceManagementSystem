@@ -1,0 +1,54 @@
+<div class="main-content">
+    <div style="margin-bottom: 32px;">
+        <h1 style="font-size: 2rem; margin-bottom: 8px;">Admin Overview</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Manage your organization, staff, and policies.</p>
+    </div>
+
+
+
+    <!-- Detailed Actions Section -->
+    <h2 style="margin-bottom: 24px;">Quick Actions</h2>
+    <div class="dashboard-grid">
+        <mat-card class="dashboard-card" (click)="navigateTo('users')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--primary-color)">badge</mat-icon>
+                <mat-card-title>Staff Management</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">Onboard new Agents, Claims Officers, and Hospital
+                    Managers.</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary">MANAGE STAFF</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="dashboard-card" (click)="navigateTo('plans')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--secondary-color)">security</mat-icon>
+                <mat-card-title>Insurance Plans</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">Create new insurance products and update premium
+                    rates.</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary">VIEW PLANS</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="dashboard-card" (click)="navigateTo('hospitals')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--info-color)">domain</mat-icon>
+                <mat-card-title>Hospital Network</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">Manage hospital partnerships and provider access.
+                </p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary">NETWORK</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

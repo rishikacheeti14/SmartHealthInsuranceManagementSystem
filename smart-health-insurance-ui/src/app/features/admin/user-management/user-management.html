@@ -1,0 +1,120 @@
+<div class="user-mgmt-container">
+    <div class="header">
+        <h2>User Management</h2>
+        <div style="display: flex; gap: 16px; align-items: center;">
+            <mat-form-field appearance="outline" style="font-size: 14px; width: 300px;">
+                <mat-label>Search Users</mat-label>
+                <input matInput (input)="onSearch($any($event.target).value)" placeholder="Name or Email">
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="toggleForm()">
+                {{ showCreateForm ? 'Cancel' : 'Add New Staff' }}
+            </button>
+        </div>
+    </div>
+
+
+    <mat-card *ngIf="showCreateForm" class="create-form-card">
+        <mat-card-header>
+            <mat-card-title>{{ editingUserId ? 'Edit User' : 'Create New Staff Member' }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="staffForm" (ngSubmit)="saveUser()">
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email">
+                        <mat-error *ngIf="staffForm.get('email')?.hasError('pattern')">Enter valid email (e.g.,
+                            user@example.com)</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="password" type="password"
+                            [placeholder]="editingUserId ? 'Leave blank to keep current' : ''">
+                    </mat-form-field>
+                </div>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Role</mat-label>
+                    <mat-select formControlName="role">
+                        <mat-option *ngFor="let role of roles" [value]="role">{{role}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <button mat-raised-button color="accent" type="submit" [disabled]="staffForm.invalid">
+                    {{ editingUserId ? 'Update User' : 'Create User' }}
+                </button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="users" matSort (matSortChange)="onSortChange($event)">
+
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> # </th>
+                <td mat-cell *matCellDef="let user; let i = index"> {{ (pageIndex * pageSize) + i + 1 }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                <td mat-cell *matCellDef="let user">
+                    {{ (user.firstName || user.lastName) ? (user.firstName + ' ' + user.lastName) : 'Unknown Name' }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+                <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+                <td mat-cell *matCellDef="let user">
+                    <span class="role-badge" [ngClass]="user.role.toLowerCase()">{{user.role}}</span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let user">
+                    <span [style.color]="user.isActive ? 'green' : 'red'">
+                        {{user.isActive ? 'Active' : 'Inactive'}}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let user">
+                    <button mat-icon-button color="primary" (click)="startEdit(user)" title="Edit User">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="toggleStatus(user)" title="Toggle Status">
+                        <mat-icon>{{user.isActive ? 'block' : 'check_circle'}}</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="deleteUser(user)" title="Delete User">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator [length]="totalCount" [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 25]"
+            (page)="onPageChange($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+</div>

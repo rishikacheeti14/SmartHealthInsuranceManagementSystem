@@ -1,0 +1,71 @@
+<div class="main-content">
+    <div style="margin-bottom: 32px; display: flex; justify-content: space-between; align-items: flex-end;">
+        <div>
+            <h1 style="font-size: 2rem; margin-bottom: 8px;">Welcome, {{ firstName }}</h1>
+            <p style="color: var(--text-muted); font-size: 1.1rem;">Track your health coverage and claims.</p>
+        </div>
+        <button mat-stroked-button color="primary" (click)="toggleReport()">
+            <mat-icon>{{ showReport ? 'visibility_off' : 'bar_chart' }}</mat-icon>
+            {{ showReport ? 'Hide Reports' : 'View Financials' }}
+        </button>
+    </div>
+
+
+    <div *ngIf="showReport" class="fade-in-up" style="margin-bottom: 40px;">
+        <h2 style="margin-bottom: 24px;">Financial Overview</h2>
+        <mat-card class="chart-card">
+            <mat-card-header>
+                <mat-card-title>Premium vs Payouts</mat-card-title>
+            </mat-card-header>
+            <mat-card-content style="padding: 24px;">
+                <div style="height: 350px;">
+                    <canvas baseChart [data]="premiumChartData" [options]="premiumChartOptions" [type]="'bar'"></canvas>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <h2 style="margin-bottom: 24px;">Quick Actions</h2>
+    <div class="dashboard-grid">
+        <mat-card class="dashboard-card" (click)="navigateTo('policies')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--primary-color)">policy</mat-icon>
+                <mat-card-title>My Policies & Payments</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">View your enrolled policies and make payment.</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary">VIEW POLICIES</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="dashboard-card" (click)="navigateTo('submit-claim')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--danger-color)">healing</mat-icon>
+                <mat-card-title>File New Claim</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">Submit a new treatment claim for reimbursement or
+                    cashless approval.</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-raised-button color="warn">FILE CLAIM</button>
+            </mat-card-actions>
+        </mat-card>
+
+        <mat-card class="dashboard-card" (click)="navigateTo('claims')" style="cursor: pointer;">
+            <mat-card-header>
+                <mat-icon mat-card-avatar style="color: var(--info-color)">history</mat-icon>
+                <mat-card-title>Claim History</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p style="margin-top: 12px; color: var(--text-body);">Track the status of ongoing claims and view past
+                    approvals.</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary">VIEW STATUS</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

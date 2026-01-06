@@ -1,0 +1,26 @@
+.review-container {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+.action-panel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.small-field {
+    width: 150px;
+    font-size: 14px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 5px;
+}
