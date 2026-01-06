@@ -9,7 +9,7 @@ A modern, full-stack web application for managing health insurance policies, cla
 - **Reporting:** Analytical dashboards for claims and premiums.
 - **Secure:** JWT Authentication and Password Hashing.
 
-## 🛠️ Technology Stack
+## Technology Stack
 - **Backend:** C#, .NET 8 Web API, Entity Framework Core, SQL Server
 - **Frontend:** Angular 18+, TypeScript, Angular Material / Bootstrap
 - **Database:** SQL Server
@@ -17,7 +17,7 @@ A modern, full-stack web application for managing health insurance policies, cla
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
 ### 1. Prerequisites
 Ensure you have the following installed:
