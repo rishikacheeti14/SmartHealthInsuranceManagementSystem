@@ -13,7 +13,7 @@ A modern, full-stack web application for managing health insurance policies, cla
 - **Backend:** C#, .NET 8 Web API, Entity Framework Core, SQL Server
 - **Frontend:** Angular 18+, TypeScript, Angular Material / Bootstrap
 - **Database:** SQL Server
-- **Testing:** xUnit (Backend), Jasmine/Karma (Frontend)
+- **Testing:** xUnit (Backend)
 
 ---
 
